@@ -1,0 +1,151 @@
+"LOG IN"
+
+import javax.swing.*;
+import java.awt.event.*;
+import javax.swing.JOptionPane;
+import java.awt.Component;
+public class f1131_login implements ActionListener
+{
+JFrame fr;
+JPanel pnl;
+JLabel lbl1,lbl2;
+JTextField tf1;
+JPasswordField tf2;
+JButton btn1,btn2;
+f1131_login()
+{
+//Create Frame
+fr = new JFrame();
+//Create panel
+pnl = new JPanel();
+//label & textfield
+lbl1 = new JLabel("USERNAME");
+lbl1.setBounds(20,20,120,20);
+tf1 = new JTextField();
+tf1.setBounds(90,20,120,20);
+lbl2 = new JLabel("PASSWORD");
+lbl2.setBounds(20,50,120,20);
+tf2 = new JPasswordField();
+tf2.setBounds(90,50,120,20);
+//button
+btn1 = new JButton("LOGIN");
+btn1.setBounds(20,90,85,25);
+btn2 = new JButton("RESET");
+btn2.setBounds(120,90,85,25);
+//recall
+fr.add(pnl);
+pnl.add(lbl1);pnl.add(tf1);
+pnl.add(lbl2);pnl.add(tf2);
+pnl.add(btn1);pnl.add(btn2);
+btn1.addActionListener(this);
+btn2.addActionListener(this);
+pnl.setLayout(null);
+fr.setTitle("LOGIN");
+fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+fr.setVisible(true);
+fr.setSize(250,200);
+}
+public void actionPerformed(java.awt.event.ActionEvent e)
+{
+if(e.getSource()==btn1)
+{
+String uname = tf1.getText();
+String psd = tf2.getText();
+if(uname.equals("admin") && psd.equals("abc@1234"))
+{
+JOptionPane.showMessageDialog(fr, "LOG IN SUCCESSFUL");
+//create object
+new lt2_f1131();
+fr.setVisible(false);
+}
+else
+{
+JOptionPane.showMessageDialog(fr, "Invalid Username or
+Password");
+}
+}
+if(e.getSource()==btn2)
+{
+tf1.setText(null);
+tf2.setText(null);
+}
+}
+public static void main(String[] args)
+{
+//Recall class
+new f1131_login();
+}
+}
+
+KIRA KIRA
+
+import javax.swing.*;
+import java.awt.event.*;
+public class lt2_f1131 implements ActionListener
+{
+JFrame fr;
+JPanel pnl;
+JLabel lbl1,lbl2,lbl3,lbl4;
+JTextField tf1,tf2,tf3;
+JButton btn1;
+lt2_f1131()
+{
+//frame
+fr = new JFrame();
+//panel
+pnl = new JPanel();
+//label & textfield
+lbl1 = new JLabel("KEDAI JIMAT ");
+lbl1.setBounds(140,20,140,20);
+lbl2 = new JLabel("JUMLAH");
+lbl2.setBounds(140,60,120,20);
+tf1 = new JTextField();
+tf1.setBounds(95,85,140,20);
+lbl3 = new JLabel("DISKAUN");
+lbl3.setBounds(140,120,120,20);
+tf2 = new JTextField();
+tf2.setBounds(95,145,140,20);
+lbl4 = new JLabel("BAYARAN");
+lbl4.setBounds(140,180,120,20);
+tf3 = new JTextField();
+tf3.setBounds(95,205,140,20);
+//button
+btn1 = new JButton("KIRA BAYARAN");
+btn1.setBounds(105,240,120,30);
+//recall
+fr.add(pnl);
+pnl.add(lbl1);
+pnl.add(lbl2);pnl.add(tf1);
+pnl.add(lbl3);pnl.add(tf2);
+pnl.add(lbl4);pnl.add(tf3);
+pnl.add(btn1);
+btn1.addActionListener(this);
+pnl.setLayout(null);
+fr.setTitle("DISCOUNT CALCULATOR");
+fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+fr.setVisible(true);
+fr.setSize(350,360);
+}
+public void actionPerformed(java.awt.event.ActionEvent e)
+{
+double n1 = Double.parseDouble(tf1.getText());
+if(e.getSource()==btn1)
+{
+if(n1>=1000)
+{
+tf2.setText(String.valueOf(n1*0.4));
+tf3.setText(String.valueOf(n1-(n1*0.4)));
+}
+if(n1<1000)
+{
+tf2.setText(String.valueOf(n1*0.15));
+tf3.setText(String.valueOf(n1-(n1*0.15)));
+}
+}
+}
+public static void main(String[] args)
+{
+//Recall class
+new lt2_f1131();
+}
+}
