@@ -1,0 +1,145 @@
+import java.awt.*;         // import all abstract window toolkit package
+import java.awt.event.*;  // import all class event from awt package
+import javax.swing.*;    // import all swing package
+
+// STEP 1.1 : import Required packages
+import java.sql.*;
+
+public class practTask extends Frame implements ActionListener, ItemListener
+{
+	JPanel p1,p2,p3,p4,p5,p6,p7,p8,p9,p10;
+	JLabel logo,title,Lname,Lclass,Lage,Lgender,Lrace,Lreligion,Lstate,Lsptype;
+	JTextField Tname,Tclass,Tage,Tsptype;
+	JButton Bsave,Breset;
+	JCheckBox g1 = new JCheckBox("Male");
+	JCheckBox g2 = new JCheckBox("Female");
+	String getProg;
+	String race[] = {"-----Please Select-----","Malay","Chinese","Indian","Others"};
+	String religion[] = {"-----Please Select-----","Islam","Buddhism","Hinduism","Christian","Others"};
+	JComboBox Cobra = new JComboBox(race);
+	JComboBox Cobre = new JComboBox(religion);
+	Font Ftitle;
+
+	// STEP 1.2 : Declare variable yang digunakan bagi connection database
+	Connection conn;
+	Statement st;
+	ResultSet rs;
+	String db;
+
+	public practTask()
+	{
+		p1 = new JPanel(); p2 = new JPanel(); p3 = new JPanel(); p4 = new JPanel(); p5 = new JPanel(); p6 = new JPanel(); p7 = new JPanel(); p9 = new JPanel(); p10 = new JPanel();
+		title = new JLabel("Sport Day Registration System"); Ftitle = new Font ("Century Gothic",Font.BOLD,20); title.setFont(Ftitle);
+		Lname = new JLabel("Name :"); Tname = new JTextField (15);
+		Lclass = new JLabel("Class :"); Tclass = new JTextField (15);
+		Lage = new JLabel("Age : "); Tage = new JTextField (15);
+		Lgender = new JLabel("Gender :");
+		Lrace = new JLabel("Race :");
+		Lreligion = new JLabel("Religion :");
+		Lsptype = new JLabel("Sport Type :"); Tsptype = new JTextField (15);
+		Bsave = new JButton("SAVE"); Breset = new JButton("RESET");
+
+		p1.add(title);
+		p2.add(Lname); p2.add(Tname);
+		p3.add(Lclass); p3.add(Tclass);
+		p4.add(Lage); p4.add(Tage);
+		p5.add(Lgender); p5.add(g1); p5.add(g2);
+		p6.add(Lrace); p6.add(Cobra);
+		p7.add(Lreligion); p7.add(Cobre);
+		p9.add(Lsptype); p9.add(Tsptype);
+		p10.add(Bsave); p10.add(Breset);
+
+		add(p1);
+		add(p2);
+		add(p3);
+		add(p4);
+		add(p5);
+		add(p6);
+		add(p7);
+		add(p9);
+		add(p10);
+
+		Bsave.addActionListener(this); Breset.addActionListener(this);
+		g1.addItemListener(this); g2.addItemListener(this);
+		
+		p2.setLayout(new GridLayout(1,2));
+		p3.setLayout(new GridLayout(1,2));
+		p4.setLayout(new GridLayout(1,2));
+		p5.setLayout(new GridLayout(1,2));
+		p6.setLayout(new GridLayout(1,2));
+		p7.setLayout(new GridLayout(1,2));
+		p9.setLayout(new GridLayout(1,2));
+
+		setLayout(new FlowLayout(FlowLayout.CENTER,500,12));
+		setTitle("Nur Raudhah Kindergarten");
+		setSize(420,650);
+		setVisible(true);
+	}
+
+	public static void main(String[] args)
+	{
+		practTask f = new practTask();
+		f.addWindowListener(new WindowEventHandler());
+	}
+
+	public void itemStateChanged(ItemEvent a)
+	{
+		if(g1.isSelected())
+			getProg = "Male";
+
+ 		else
+   			getProg = "Female";
+	}
+
+	public void actionPerformed(ActionEvent e)
+    {
+    	Object pilihan = e.getSource();
+
+		if(pilihan==Bsave)
+		{
+			try
+			{
+				//STEP 2 : Register JDBC  drver using mysql
+				Class.forName("com.mysql.jdbc.Driver");
+
+				//STEP 3 : Open Connection
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ipt","root","");
+				Statement st = conn.createStatement();
+
+				int ageStudent = Integer.parseInt(Tage.getText());
+				String idk = "";
+
+				// STEP 4.1 : Execute Query (insert data using java code)
+				int i = st.executeUpdate("insert into student(name,class,age,gender,race,religion,sport)VALUES('"+Tname.getText()+"','"+Tclass.getText()+"','"+ageStudent+"','"+getProg+"','"+Cobra.getSelectedItem().toString()+"','"+Cobre.getSelectedItem().toString()+"','"+Tsptype.getText()+"')");
+				JOptionPane.showMessageDialog(null,"Item Successfully Added!","Confirmation",JOptionPane.INFORMATION_MESSAGE);
+				setVisible(false);
+			}
+
+			catch(Exception ei)
+			{
+				System.out.println("SQL code does not execute.");
+			}
+		}
+
+		else
+		{
+			Tname.setText("");
+			Tclass.setText("");
+			Tage.setText("");
+			g1.setSelected(false);
+			g2.setSelected(false);
+			Cobra.setSelectedIndex(0);
+			Cobre.setSelectedIndex(0);
+			Tsptype.setText("");
+			JOptionPane.showMessageDialog(null," The Form Already Reset!");
+		}
+	}
+}
+
+class WindowEventHandler extends WindowAdapter
+{
+	public void windowClosing(WindowEvent e)
+	{
+		System.exit(0);
+	}
+}
